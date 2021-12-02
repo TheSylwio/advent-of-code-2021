@@ -9,7 +9,7 @@ class Helper {
 		$array = [];
 
 		while (!feof($input)) {
-			$array[] = (int)fgets($input);
+			$array[] = fgets($input);
 		}
 
 		return $array;
