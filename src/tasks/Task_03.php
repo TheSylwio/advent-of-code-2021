@@ -37,36 +37,38 @@ class Task_03 extends BaseTask implements TaskInterface {
 		$rowLength = strlen($values[0]);
 		$oxygenRating = join("\n", $values);
 		$co2Rating = join("\n", $values);
+		$isOxygenRatingFound = false;
+		$isCo2RatingFound = false;
 
 		for ($i = 0; $i < $rowLength; $i++) {
 			$regExpZero = sprintf('/.{%s}[0].{%s}/', $i, $rowLength - $i - 1);
 			$regExpOne = sprintf('/.{%s}[1].{%s}/', $i, $rowLength - $i - 1);
-			preg_match_all($regExpZero, $oxygenRating, $matches);
-			preg_match_all($regExpOne, $oxygenRating, $matchesOne);
+			preg_match_all($regExpZero, $oxygenRating, $matchesOxygenZero);
+			preg_match_all($regExpOne, $oxygenRating, $matchesOxygenOne);
+			preg_match_all($regExpZero, $co2Rating, $matchesCo2Zero);
+			preg_match_all($regExpOne, $co2Rating, $matchesCo2One);
 
-			if (count($matches[0]) === count($matchesOne[0])) {
-				$oxygenRating = join("\n", $matchesOne[0]);
-			} else if (count($matches[0]) === 0 || count($matchesOne[0]) === 0) {
-				$oxygenRating = max($matches[0], $matchesOne[0])[0];
-				break;
-			} else {
-				$oxygenRating = join("\n", max($matches[0], $matchesOne[0]));
+			if (!$isOxygenRatingFound) {
+				if (count($matchesOxygenZero[0]) === 0 || count($matchesOxygenOne[0]) === 0) {
+					$oxygenRating = max($matchesOxygenZero[0], $matchesOxygenOne[0])[0];
+					$isOxygenRatingFound = true;
+				} else if (count($matchesOxygenZero[0]) === count($matchesOxygenOne[0])) {
+					$oxygenRating = join("\n", $matchesOxygenOne[0]);
+				} else {
+
+					$oxygenRating = join("\n", max($matchesOxygenZero[0], $matchesOxygenOne[0]));
+				}
 			}
-		}
 
-		for ($i = 0; $i < $rowLength; $i++) {
-			$regExpZero = sprintf('/.{%s}[0].{%s}/', $i, $rowLength - $i - 1);
-			$regExpOne = sprintf('/.{%s}[1].{%s}/', $i, $rowLength - $i - 1);
-			preg_match_all($regExpZero, $co2Rating, $matches);
-			preg_match_all($regExpOne, $co2Rating, $matchesOne);
-
-			if (count($matches[0]) === count($matchesOne[0])) {
-				$co2Rating = join("\n", $matches[0]);
-			} else if (count($matches[0]) === 0 || count($matchesOne[0]) === 0) {
-				$co2Rating = max($matches[0], $matchesOne[0])[0];
-				break;
-			} else {
-				$co2Rating = join("\n", min($matches[0], $matchesOne[0]));
+			if (!$isCo2RatingFound) {
+				if (count($matchesCo2Zero[0]) === 0 || count($matchesCo2One[0]) === 0) {
+					$co2Rating = max($matchesCo2Zero[0], $matchesCo2One[0])[0];
+					$isCo2RatingFound = true;
+				} else if (count($matchesCo2Zero[0]) === count($matchesCo2One[0])) {
+					$co2Rating = join("\n", $matchesCo2Zero[0]);
+				} else {
+					$co2Rating = join("\n", min($matchesCo2Zero[0], $matchesCo2One[0]));
+				}
 			}
 		}
 
