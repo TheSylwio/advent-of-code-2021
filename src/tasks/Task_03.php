@@ -6,7 +6,7 @@ use App\Interfaces\TaskInterface;
 
 class Task_03 extends BaseTask implements TaskInterface {
 	public function executeFirstPart() {
-		$values = array_map(fn($item) => trim($item), $this->getInput());
+		$values = $this->getInput(trimmed: true);
 		$rowsCount = count($values);
 		$rowLength = strlen($values[0]);
 		$string = join("\n", $values);

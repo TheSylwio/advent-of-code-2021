@@ -5,14 +5,8 @@ namespace App\Tasks;
 use App\Helper;
 
 class BaseTask {
-	private array $input;
-
-	public function __construct() {
+	public function getInput($trimmed = false): array {
 		$inputNumber = explode('App\Tasks\Task_', get_class($this))[1];
-		$this->input = Helper::readFile($inputNumber);
-	}
-
-	public function getInput(): array {
-		return $this->input;
+		return Helper::readFile($inputNumber, $trimmed);
 	}
 }

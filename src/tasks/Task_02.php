@@ -9,7 +9,6 @@ class Task_02 extends BaseTask implements TaskInterface {
 	private array $commands;
 
 	public function __construct() {
-		parent::__construct();
 		$this->commands = array_map(fn($command) => explode(' ', $command), $this->getInput());
 	}
 
