@@ -20,8 +20,7 @@ class Task_04 extends BaseTask implements TaskInterface {
 		$lastValue = $winningNumbers[$neededStepsToWin - 1];
 		$sumNumbers = $this->getSum($boards, $neededStepsToWin, $boardSteps);
 
-		$result = $sumNumbers * $lastValue;
-		echo "Day 04 ~ Part 1 | Result: $result \r\n";
+		$this->displayResult($sumNumbers * $lastValue);
 	}
 
 	public function executeSecondPart() {
@@ -37,9 +36,7 @@ class Task_04 extends BaseTask implements TaskInterface {
 		$lastValue = $winningNumbers[$neededStepsToWin - 1];
 		$sumNumbers = $this->getSum($boards, $neededStepsToWin, $boardSteps);
 
-		$result = $sumNumbers * $lastValue;
-		echo "Day 04 ~ Part 2 | Result: $result \r\n";
-
+		$this->displayResult($sumNumbers * $lastValue);
 	}
 
 	private function getSum(array $boards, int $stepCount, array $boardSteps) {

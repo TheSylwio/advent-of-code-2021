@@ -15,7 +15,7 @@ class Task_01 extends BaseTask implements TaskInterface {
 			}
 		}
 
-		echo "Day 01 ~ Part 1 | Result: $measurements \r\n";
+		$this->displayResult($measurements);
 	}
 
 	public function executeSecondPart() {
@@ -31,6 +31,6 @@ class Task_01 extends BaseTask implements TaskInterface {
 			}
 		}
 
-		echo "Day 01 ~ Part 2 | Result: $measurements \r\n";
+		$this->displayResult($measurements);
 	}
 }

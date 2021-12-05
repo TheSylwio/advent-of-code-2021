@@ -51,8 +51,7 @@ class Task_02 extends BaseTask implements TaskInterface {
 					$aim += $command[1];
 			}
 		}
-
-		$result = $position * $depth;
-		echo "Day 02 ~ Part 2 | Result: $result \r\n";
+		
+		$this->displayResult($position * $depth);
 	}
 }

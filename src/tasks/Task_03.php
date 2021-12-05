@@ -28,8 +28,7 @@ class Task_03 extends BaseTask implements TaskInterface {
 		$gammaRate = intval($gammaRate, 2);
 		$epsilonRate = intval($epsilonRate, 2);
 
-		$result = $gammaRate * $epsilonRate;
-		echo "Day 03 ~ Part 1 | Result: $result \r\n";
+		$this->displayResult($gammaRate * $epsilonRate);
 	}
 
 	public function executeSecondPart() {
@@ -75,7 +74,6 @@ class Task_03 extends BaseTask implements TaskInterface {
 		$oxygenRating = intval($oxygenRating, 2);
 		$co2Rating = intval($co2Rating, 2);
 
-		$result = $oxygenRating * $co2Rating;
-		echo "Day 03 ~ Part 2 | Result: $result \r\n";
+		$this->displayResult($oxygenRating * $co2Rating);
 	}
 }
