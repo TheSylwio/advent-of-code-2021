@@ -4,7 +4,7 @@
 
 * Event: [Advent of Code](https://adventofcode.com/)
 * Language: **PHP**
-* My progress: 6⭐
+* My progress: 8⭐
 
 ## Instalation
 
