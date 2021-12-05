@@ -4,7 +4,7 @@
 
 * Event: [Advent of Code](https://adventofcode.com/)
 * Language: **PHP**
-* ![](https://img.shields.io/badge/Stars%20⭐-10-yellow)
+* ![](https://img.shields.io/badge/stars%20⭐-4-yellow)
 
 ## Instalation
 
