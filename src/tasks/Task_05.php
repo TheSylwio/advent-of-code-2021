@@ -16,7 +16,11 @@ class Task_05 extends BaseTask implements TaskInterface {
 	}
 
 	public function executeSecondPart() {
-		// TODO: Implement executeSecondPart() method.
+		$vents = $this->getVents();
+		$diagram = $this->getDiagram($vents);
+		$overlappingPoints = array_filter($diagram, fn($point) => $point > 1);
+
+		$this->displayResult(count($overlappingPoints));
 	}
 
 	private function getDiagram(array $vents): array {
@@ -28,6 +32,7 @@ class Task_05 extends BaseTask implements TaskInterface {
 					$key = $vent->startX . ',' . $cord;
 					$diagram[$key] = isset($diagram[$key]) ? $diagram[$key] + 1 : 1;
 				}
+				continue;
 			}
 
 			if ($vent->startY === $vent->endY) {
@@ -35,6 +40,15 @@ class Task_05 extends BaseTask implements TaskInterface {
 					$key = $cord . ',' . $vent->startY;
 					$diagram[$key] = isset($diagram[$key]) ? $diagram[$key] + 1 : 1;
 				}
+				continue;
+			}
+
+			$factor = ($vent->startY - $vent->endY) / ($vent->startX - $vent->endX);
+			$rest = $vent->startY - $factor * $vent->startX;
+
+			foreach (range(min($vent->startX, $vent->endX), max($vent->startX, $vent->endX)) as $cordX) {
+				$key = $cordX . ',' . $factor * $cordX + $rest;
+				$diagram[$key] = isset($diagram[$key]) ? $diagram[$key] + 1 : 1;
 			}
 		}
 
