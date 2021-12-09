@@ -9,28 +9,27 @@ class Task_02 extends BaseTask implements TaskInterface {
 	private array $commands;
 
 	public function __construct() {
-		$this->commands = array_map(fn($command) => explode(' ', $command), $this->getInput());
+		$this->commands = array_map(fn($command) => explode(' ', $command), $this->getInput(trimmed: true));
 	}
 
 	public function executeFirstPart() {
 		$position = 0;
 		$depth = 0;
 
-		foreach ($this->commands as $command) {
-			switch ($command[0]) {
+		foreach ($this->commands as [$direction, $value]) {
+			switch ($direction) {
 				case 'forward':
-					$position += $command[1];
+					$position += (int)$value;
 					break;
 				case 'up':
-					$depth -= $command[1];
+					$depth -= (int)$value;
 					break;
 				case 'down':
-					$depth += $command[1];
+					$depth += (int)$value;
 			}
 		}
 
-		$result = $position * $depth;
-		echo "Day 02 ~ Part 1 | Result: $result \r\n";
+		$this->displayResult($position * $depth);
 	}
 
 	public function executeSecondPart() {
@@ -38,20 +37,20 @@ class Task_02 extends BaseTask implements TaskInterface {
 		$depth = 0;
 		$aim = 0;
 
-		foreach ($this->commands as $command) {
-			switch ($command[0]) {
+		foreach ($this->commands as [$direction, $value]) {
+			switch ($direction) {
 				case 'forward':
-					$position += $command[1];
-					$depth += $aim * $command[1];
+					$position += (int)$value;
+					$depth += $aim * (int)$value;
 					break;
 				case 'up':
-					$aim -= $command[1];
+					$aim -= (int)$value;
 					break;
 				case 'down':
-					$aim += $command[1];
+					$aim += (int)$value;
 			}
 		}
-		
+
 		$this->displayResult($position * $depth);
 	}
 }
