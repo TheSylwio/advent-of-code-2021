@@ -7,7 +7,27 @@ use App\Interfaces\TaskInterface;
 class Task_10 extends BaseTask implements TaskInterface {
 	public function executeFirstPart() {
 		$rows = $this->getInput(trimmed: true);
-		$illegalCharacters = [];
+		$illegalCharacters = $this->iterateRows($rows, true);
+
+		$syntaxErrorScore = $this->getSyntaxErrorScore($illegalCharacters);
+		$this->displayResult($syntaxErrorScore);
+	}
+
+	public function executeSecondPart() {
+		$rows = $this->getInput(trimmed: true);
+		$incompleteRows = $this->getIncompleteRows($rows);
+		$completionCharacters = $this->iterateRows($incompleteRows);
+
+		$completionPoints = array_map(fn($completion) => $this->getCompletionPoints($completion), $completionCharacters);
+		sort($completionPoints);
+		$middleScore = $completionPoints[floor(count($completionPoints) / 2)];
+
+		$this->displayResult($middleScore);
+	}
+
+
+	private function iterateRows(array $rows, bool $returnIllegalCharacters = false): array {
+		$valuesToReturn = [];
 
 		foreach ($rows as $row) {
 			$characters = str_split($row);
@@ -22,50 +42,18 @@ class Task_10 extends BaseTask implements TaskInterface {
 				$lastOpeningBracket = array_pop($openingBrackets);
 				$areMatchingBrackets = $this->areMatchingBrackets($lastOpeningBracket, $character);
 
-				if (!$areMatchingBrackets) {
-					$illegalCharacters[] = $character;
-					break;
-				}
-			}
-		}
-
-		$syntaxErrorScore = $this->getSyntaxErrorScore($illegalCharacters);
-		$this->displayResult($syntaxErrorScore);
-	}
-
-	public function executeSecondPart() {
-		$rows = $this->getInput(trimmed: true);
-		$incompleteRows = $this->getIncompleteRows($rows);
-		$completionCharacters = [];
-
-		foreach ($incompleteRows as $row) {
-			$characters = str_split($row);
-			$openingBrackets = [];
-
-			foreach ($characters as $character) {
-				if ($this->isOpeningBracket($character)) {
-					$openingBrackets[] = $character;
-					continue;
-				}
-
-				$lastOpeningBracket = array_pop($openingBrackets);
-				$areMatchingBrackets = $this->areMatchingBrackets($lastOpeningBracket, $character);
-
-				if (!$areMatchingBrackets) {
+				if (!$areMatchingBrackets && $returnIllegalCharacters) {
+					$valuesToReturn[] = $character;
 					break;
 				}
 			}
 
-			$completionCharacters[] = array_reverse($openingBrackets);
+			if (!$returnIllegalCharacters) {
+				$valuesToReturn[] = array_reverse($openingBrackets);
+			}
+
 		}
-
-		$completionPoints = array_map(function ($completion) {
-			return $this->getCompletionPoints($completion);
-		}, $completionCharacters);
-		sort($completionPoints);
-		$middleScore = $completionPoints[floor(count($completionPoints) / 2)];
-
-		$this->displayResult($middleScore);
+		return $valuesToReturn;
 	}
 
 	private function getCompletionPoints(array $completion): int {
