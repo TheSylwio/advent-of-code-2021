@@ -28,7 +28,7 @@ class Task_09 extends BaseTask implements TaskInterface {
 		$currentCell = $matrix[$i][$j];
 
 		foreach ($adjacentLocations as $location) {
-			if (is_numeric($location) && $location <= $currentCell) {
+			if ($location <= $currentCell) {
 				return true;
 			}
 		}
@@ -40,11 +40,11 @@ class Task_09 extends BaseTask implements TaskInterface {
 	private function addMatrixPadding(array $matrix): array {
 		$columnsCount = count($matrix[0]);
 
-		$paddingRow = array_fill(0, $columnsCount, '*');
+		$paddingRow = array_fill(0, $columnsCount, 9);
 		$newMatrix = [$paddingRow, ...$matrix, $paddingRow];
 
 		foreach ($newMatrix as &$row) {
-			$row = ['*', ...$row, '*'];
+			$row = [9, ...$row, 9];
 		}
 
 		return $newMatrix;
